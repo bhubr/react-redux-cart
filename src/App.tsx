@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
+// useSelector => recuperer des informations depuis le state
+// useDispatch => envoyer des actions au store
+import { useSelector, useDispatch } from 'react-redux'
+import { CART_ADD, CART_EMPTY } from './store/reducer'
 import axios from 'axios'
-import logo from './logo.svg'
 import './App.css'
 
 /*
@@ -18,15 +21,27 @@ import './App.css'
 
 function App() {
   const [products, setProducts] = useState([])
-  const [cart, setCart] = useState([])
+  const cart = useSelector((state) => state.cart)
+
+  const dispatch = useDispatch()
+
+  // const addToCart = (id) => {
+  //   if (!cart.includes(id)) {
+  //     // setCart(cart.concat(id))
+  //     // setCart([...cart, id])
+  //     setCart(prevCart => [...prevCart, id])
+  //   } 
+  // }
 
   const addToCart = (id) => {
-    if (!cart.includes(id)) {
-      // setCart(cart.concat(id))
-      // setCart([...cart, id])
-      setCart(prevCart => [...prevCart, id])
-    } 
+    const action = {type: CART_ADD, productId: id}
+    dispatch(action)
   }
+
+const clearCart = () => {
+  const action = {type: CART_EMPTY}
+  dispatch(action)
+}
 
   useEffect(() => {
 axios.get('https://my-json-server.typicode.com/bhubr/products-api/products').then(function (response) {
@@ -45,6 +60,7 @@ axios.get('https://my-json-server.typicode.com/bhubr/products-api/products').the
         })
       }
       <h2>Cart</h2>
+      <p><button type="button" onClick={() => clearCart()}>Clear cart</button></p>
       {
         cart.map(id => (
           <p key={id}>{id}</p>

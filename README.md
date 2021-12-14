@@ -26,3 +26,25 @@ Plus complexe
   }
 ]
 ```
+
+## Exemple de structure de l'etat
+
+```json
+{
+  "user": null,
+  "products": [],
+  "cart": []
+}
+```
+
+```json
+{
+  "user": null,
+  "products": [],
+  "cart": [1]
+}
+```
+
+```javascript
+state.cart.push(1);
+```
